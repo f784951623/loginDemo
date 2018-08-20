@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+	<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+		"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+	<!-- namespace表示命名空間 ，值必須為接口的名稱（包括包名）-->
+	<!-- 實現類沒有，mybatis框架會生成接口的實現類 -->
+	<mapper namespace="mura.login.mapper.UserMapper">
+	
+	<!-- 新增 -->
+	<insert id="insertUser"
+	parameterType="mura.login.bean.User">
+		insert into t_user (
+			username,password
+		)values(
+			#{username},#{password}
+		)
+	</insert>
+	<!-- 修改 -->
+	<update id="updateUser"
+	parameterType="mura.login.bean.User">
+		update
+			t_user
+		<set>
+			<if test="password!=null">
+				password=#{password},
+			</if>
+			<if test="username!=null">
+				username=#{username},
+			</if>
+			<if test="gender!=null">
+				gender=#{gender},
+			</if>
+			<if test="phone!=null">
+				phone=#{phone},
+			</if>
+			<if test="email!=null">
+				email=#{email},
+			</if>
+			<if test="modifiedUser!=null">
+				modified_user=#{modifiedUser},
+			</if>
+			<if test="modifiedTime!=null">
+				modified_time=#{modifiedTime}
+			</if>
+		</set>
+			
+		where
+			id=#{id}
+	</update>
+	<!-- 透過用戶名查詢 -->
+	<select id="selectByName" resultType="mura.login.bean.User">
+		select 
+			id,name username,password
+		from
+			t_user
+		where
+			name=#{username}
+	</select>
+	<!-- 透過ID查詢 -->
+	<select id="selectById" resultType="mura.login.bean.User">
+		select 
+			id,name username,password
+		from
+			t_user
+		where
+			id=#{id}
+	</select>
+	<!-- 查詢整個用戶表單 -->
+	<select id="selectAll" resultType="mura.login.bean.User"> 
+		select
+			id,name username,password
+		from
+			t_user
+	</select>
+</mapper>
